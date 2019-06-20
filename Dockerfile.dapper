@@ -40,10 +40,13 @@ ENV ARCH $DAPPER_HOST_ARCH
 ARG KERNEL_SOURCE_URL=http://archive.ubuntu.com/ubuntu/pool/main/l/linux/linux-source-4.15.0_4.15.0-47.50_all.deb
 
 # https://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux-firmware
-ARG FIRMWARE_URL=http://archive.ubuntu.com/ubuntu/pool/main/l/linux-firmware/linux-firmware_1.173.3_all.deb
+ARG FIRMWARE_URL=http://archive.ubuntu.com/ubuntu/pool/main/l/linux-firmware/linux-firmware_1.173.6_all.deb
+
+ARG DPDK_URL=http://fast.dpdk.org/rel/dpdk-19.05.tar.xz
 
 ENV KERNEL_SOURCE_URL=${KERNEL_SOURCE_URL} \
     FIRMWARE_URL=${FIRMWARE_URL} \
+    DPDK_URL=${DPDK_URL} \
     DOWNLOADS=/usr/src/downloads
 
 ENTRYPOINT ["./scripts/entry"]
