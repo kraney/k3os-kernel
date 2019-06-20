@@ -20,6 +20,7 @@ RUN apt-get update \
         gawk  \
         libudev-dev \
         pciutils-dev \
+        libnuma-dev \
     && rm -f /bin/sh && ln -s /bin/bash /bin/sh
 
 ########## Dapper Configuration #####################
