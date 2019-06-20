@@ -16,3 +16,19 @@ fakeroot debian/rules clean
 fakeroot debian/rules binary-headers binary-generic do_zfs=false do_dkms_nvidia=false
 popd
 
+
+# dpdk
+DPDK_DIR=$(pwd)/build/dpdk
+export DPDK_TARGET=x86_64-native-linuxapp-gcc
+export DPDK_BUILD=${DPDK_DIR}/${DPDK_TARGET}
+
+export -n ARCH
+pushd ${DPDK_DIR}
+# build shared lib
+sed -i -e 's/CONFIG_RTE_BUILD_SHARED_LIB=n/CONFIG_RTE_BUILD_SHARED_LIB=y/' config/common_base
+fakeroot make install RTE_KERNELDIR=/source/build/kernel/debian/build/build-generic \
+	                  RTE_KERNELDIR_OUT=/source/build/kernel/debian/linux-modules-4.15.0-47-generic \
+	                  kerneldir=/lib/modules/4.15.0-47-generic/extra/dpdk \
+	                  T=${DPDK_TARGET} \
+	                  DESTDIR=install
+popd

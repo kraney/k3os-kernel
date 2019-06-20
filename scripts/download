@@ -4,7 +4,7 @@ set -e
 source $(dirname $0)/version
 cd $(dirname $0)/..
 
-mkdir -p ${DOWNLOADS}/kernel ${DOWNLOADS}/firmware
+mkdir -p ${DOWNLOADS}/kernel ${DOWNLOADS}/firmware ${DOWNLOADS}/dpdk
 
 # kernel
 mkdir -p build/kernel
@@ -29,3 +29,8 @@ for p in `find ${PATCHES_DIR} -name "*.patch"`; do
 done
 popd
 
+# dpdk
+mkdir -p build/dpdk
+curl -fL -o ${DOWNLOADS}/dpdk.tar.xz ${DPDK_URL}
+tar xf ${DOWNLOADS}/dpdk.tar.xz -C /tmp
+mv /tmp/dpdk-*/* ./build/dpdk

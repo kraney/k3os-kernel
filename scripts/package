@@ -11,11 +11,13 @@ cd $(dirname $0)/..
 GENERIC_HEADERS_DIR=dist/generic/headers
 GENERIC_MAIN_DIR=dist/generic/main
 GENERIC_EXTRA_DIR=dist/generic/modules-extra
+GENERIC_DPDK_DIR=dist/generic/dpdk
 
-mkdir -p ${GENERIC_HEADERS_DIR} ${GENERIC_MAIN_DIR} ${GENERIC_EXTRA_DIR}
+mkdir -p ${GENERIC_HEADERS_DIR} ${GENERIC_MAIN_DIR} ${GENERIC_EXTRA_DIR} ${GENERIC_DPDK_DIR}
 
 KERNEL_BASE_DIR=build/kernel/debian
 FIRMWARE_BASE_DIR=build/firmware
+DPDK_BASE_DIR=build/dpdk/install
 
 # headers
 cp -rf ${KERNEL_BASE_DIR}/linux-headers-*-generic/usr ${GENERIC_HEADERS_DIR}
@@ -34,6 +36,12 @@ cp -rf ${FIRMWARE_BASE_DIR}/* ${GENERIC_MAIN_DIR}/lib/firmware
 
 # extra modules
 cp -rf ${KERNEL_BASE_DIR}/linux-modules-extra-*-generic/lib ${GENERIC_EXTRA_DIR}
+# dpdk modules
+cp -rf ${DPDK_BASE_DIR}/lib/modules ${GENERIC_EXTRA_DIR}/lib
+
+# DPDK libraries and related
+cp -rf ${DPDK_BASE_DIR}/* ${GENERIC_DPDK_DIR}
+rm -rf ${GENERIC_DPDK_DIR}/lib/modules
 
 # package artifacts
 mkdir -p dist/artifacts
@@ -48,4 +56,8 @@ popd
 
 pushd ${GENERIC_EXTRA_DIR}
 tar cvJf ../../artifacts/kernel-extra-generic_${ARCH}.tar.xz .
+popd
+
+pushd ${GENERIC_DPDK_DIR}
+tar cvJf ../../artifacts/dpdk-library_${ARCH}.tar.xz .
 popd
